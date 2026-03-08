@@ -57,38 +57,36 @@ export const errorHandler = (
     let message = 'Internal Server Error';
     let errors: unknown[] | null = null;
 
-    // Handle custom API errors
+    // Handle custom API errors (authoritative — never overwritten)
     if (err instanceof ApiError) {
         statusCode = err.statusCode;
         message = err.message;
         errors = err.errors;
-    }
-
-    // Handle JWT errors
-    if (err.name === 'JsonWebTokenError') {
+    } else if (err.name === 'JsonWebTokenError') {
+        // Handle JWT errors
         statusCode = 401;
         message = 'Invalid token';
     } else if (err.name === 'TokenExpiredError') {
         statusCode = 401;
         message = 'Token has expired';
-    }
-
-    // Handle Prisma errors (duck-type check)
-    const errWithCode = err as Error & { code?: string };
-    if (errWithCode.code) {
-        switch (errWithCode.code) {
-            case 'P2002':
-                statusCode = 409;
-                message = 'Duplicate entry — resource already exists';
-                break;
-            case 'P2025':
-                statusCode = 404;
-                message = 'Record not found';
-                break;
-            case 'P2003':
-                statusCode = 400;
-                message = 'Foreign key constraint failed';
-                break;
+    } else {
+        // Handle Prisma errors (duck-type check)
+        const errWithCode = err as Error & { code?: string };
+        if (errWithCode.code) {
+            switch (errWithCode.code) {
+                case 'P2002':
+                    statusCode = 409;
+                    message = 'Duplicate entry — resource already exists';
+                    break;
+                case 'P2025':
+                    statusCode = 404;
+                    message = 'Record not found';
+                    break;
+                case 'P2003':
+                    statusCode = 400;
+                    message = 'Foreign key constraint failed';
+                    break;
+            }
         }
     }
 
