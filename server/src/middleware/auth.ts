@@ -12,6 +12,12 @@ export interface JwtPayload {
 
 // ─── Authentication Middleware ──────────────────────────────────────────────
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is required');
+}
+
 export const authenticate = (req: Request, _res: Response, next: NextFunction) => {
     try {
         const authHeader = req.headers.authorization;
@@ -27,7 +33,7 @@ export const authenticate = (req: Request, _res: Response, next: NextFunction) =
         }
 
         const token = parts[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+        const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
         req.user = {
             userId: decoded.userId,

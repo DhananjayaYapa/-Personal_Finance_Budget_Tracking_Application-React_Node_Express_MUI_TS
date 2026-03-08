@@ -6,7 +6,10 @@ import { PrismaClient } from '../generated/prisma/client.js';
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 
 function createPrismaClient(): PrismaClient {
-    const connectionString = process.env.DATABASE_URL!;
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+        throw new Error('DATABASE_URL environment variable is required');
+    }
     const pool = new pg.Pool({ connectionString });
     const adapter = new PrismaPg(pool);
 
@@ -15,7 +18,6 @@ function createPrismaClient(): PrismaClient {
         log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
     });
 }
-
 const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
 if (process.env.NODE_ENV !== 'production') {

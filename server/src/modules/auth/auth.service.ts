@@ -56,15 +56,14 @@ class AuthService {
         });
 
         if (!user) {
-            throw new UnauthorizedError('User not found with this email');
+            throw new UnauthorizedError('Invalid email or password');
         }
 
         const isPasswordValid = await bcrypt.compare(data.password, user.passwordHash);
 
         if (!isPasswordValid) {
-            throw new UnauthorizedError('Invalid password');
+            throw new UnauthorizedError('Invalid email or password');
         }
-
         const token = generateToken(user);
 
         return {
@@ -101,6 +100,15 @@ class AuthService {
     // ── Update Profile ──────────────────────────────────────────────────────
 
     static async updateProfile(userId: number, data: UpdateProfileInput) {
+        const existingUser = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { id: true },
+        });
+
+        if (!existingUser) {
+            throw new NotFoundError('User not found');
+        }
+
         const user = await prisma.user.update({
             where: { id: userId },
             data: { name: data.name },
@@ -114,7 +122,6 @@ class AuthService {
 
         return user;
     }
-
     // ── Change Password ─────────────────────────────────────────────────────
 
     static async changePassword(userId: number, data: ChangePasswordInput) {
