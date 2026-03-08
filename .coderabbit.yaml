@@ -1,0 +1,8 @@
+reviews:
+  auto_review: true
+  review_status: true
+  branches:
+    - main
+    - dev
+    - backend-dev
+    - frontend-dev
