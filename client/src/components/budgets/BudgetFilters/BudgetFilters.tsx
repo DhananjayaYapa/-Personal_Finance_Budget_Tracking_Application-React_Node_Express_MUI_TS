@@ -61,7 +61,7 @@ const BudgetFilters: React.FC<BudgetFiltersProps> = ({
               }}
             />
           </Grid>
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid item xs={12} sm={6} md={2}>
             <TextField
               fullWidth
               size="small"
@@ -78,7 +78,7 @@ const BudgetFilters: React.FC<BudgetFiltersProps> = ({
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid item xs={12} sm={6} md={2}>
             <TextField
               fullWidth
               size="small"
@@ -95,7 +95,7 @@ const BudgetFilters: React.FC<BudgetFiltersProps> = ({
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={6} sm={3} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <TextField
               fullWidth
               size="small"
@@ -112,7 +112,7 @@ const BudgetFilters: React.FC<BudgetFiltersProps> = ({
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={6} sm={3} md={2}>
+          <Grid item xs={12} sm={6} md={2}>
             <Button fullWidth variant="outlined" onClick={onReset}>
               Reset
             </Button>
