@@ -23,7 +23,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: { xs: 'flex-start', sm: 'center' },
+        flexDirection: { xs: 'column', sm: 'row' },
+        gap: { xs: 2, sm: 0 },
         mb: 3,
       }}
     >
@@ -45,6 +47,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           startIcon={actionIcon}
           onClick={onAction}
           disabled={actionDisabled}
+          sx={{ width: { xs: '100%', sm: 'auto' } }}
         >
           {actionLabel}
         </Button>

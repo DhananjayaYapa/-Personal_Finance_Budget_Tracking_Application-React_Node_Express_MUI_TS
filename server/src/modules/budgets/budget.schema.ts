@@ -50,9 +50,30 @@ export const budgetProgressQuerySchema = z.object({
         .max(2100),
 });
 
+// ─── Export Query Schema ───────────────────────────────────────────────────
+
+export const budgetExportQuerySchema = z.object({
+    startMonth: z.coerce.number().int().min(1).max(12).optional(),
+    startYear: z.coerce.number().int().min(2000).max(2100).optional(),
+    endMonth: z.coerce.number().int().min(1).max(12).optional(),
+    endYear: z.coerce.number().int().min(2000).max(2100).optional(),
+    categoryId: z.coerce.number().int().positive().optional(),
+});
+
+// ─── All Progress Query Schema (optional date range) ──────────────────────────
+
+export const budgetAllProgressQuerySchema = z.object({
+    startMonth: z.coerce.number().int().min(1).max(12).optional(),
+    startYear: z.coerce.number().int().min(2000).max(2100).optional(),
+    endMonth: z.coerce.number().int().min(1).max(12).optional(),
+    endYear: z.coerce.number().int().min(2000).max(2100).optional(),
+});
+
 // ─── Inferred Types ────────────────────────────────────────────────────────
 
 export type CreateBudgetInput = z.infer<typeof createBudgetSchema>;
 export type UpdateBudgetInput = z.infer<typeof updateBudgetSchema>;
 export type BudgetQueryInput = z.infer<typeof budgetQuerySchema>;
 export type BudgetProgressQueryInput = z.infer<typeof budgetProgressQuerySchema>;
+export type BudgetExportQueryInput = z.infer<typeof budgetExportQuerySchema>;
+export type BudgetAllProgressQueryInput = z.infer<typeof budgetAllProgressQuerySchema>;

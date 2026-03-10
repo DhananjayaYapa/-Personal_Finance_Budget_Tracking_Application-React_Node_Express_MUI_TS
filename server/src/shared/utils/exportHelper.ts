@@ -55,9 +55,69 @@ export const exportToJSON = (transactions: TransactionExportRow[]) => {
     };
 };
 
+// ─── Budget Export Interface ────────────────────────────────────────────────
+
+interface BudgetExportRow {
+    id: number;
+    category: string;
+    amount: string | number;
+    month: number;
+    year: string;
+    spentAmount: number;
+    remaining: number;
+    percentageUsed: number;
+    status: string;
+    createdAt: string | Date;
+}
+
+// ─── Export Budgets to CSV ──────────────────────────────────────────────────
+
+export const exportBudgetsToCSV = (budgets: BudgetExportRow[]): string => {
+    if (!budgets || budgets.length === 0) {
+        return 'No data to export';
+    }
+
+    const fields = [
+        { label: 'Budget ID', value: 'id' },
+        { label: 'Category', value: 'category' },
+        { label: 'Budget Amount', value: 'amount' },
+        { label: 'Month', value: 'month' },
+        { label: 'Year', value: 'year' },
+        { label: 'Spent Amount', value: 'spentAmount' },
+        { label: 'Remaining', value: 'remaining' },
+        { label: 'Usage %', value: 'percentageUsed' },
+        { label: 'Status', value: 'status' },
+        { label: 'Created At', value: 'createdAt' },
+    ];
+
+    const parser = new Parser({ fields });
+    return parser.parse(budgets);
+};
+
+// ─── Export Budgets to JSON ─────────────────────────────────────────────────
+
+export const exportBudgetsToJSON = (budgets: BudgetExportRow[]) => {
+    return {
+        exportDate: new Date().toISOString(),
+        totalCount: budgets.length,
+        budgets: budgets.map((b) => ({
+            id: b.id,
+            category: b.category,
+            amount: b.amount,
+            month: b.month,
+            year: b.year,
+            spentAmount: b.spentAmount,
+            remaining: b.remaining,
+            percentageUsed: b.percentageUsed,
+            status: b.status,
+            createdAt: b.createdAt,
+        })),
+    };
+};
+
 // ─── Helper ─────────────────────────────────────────────────────────────────
 
-export const getExportFilename = (format: string): string => {
+export const getExportFilename = (format: string, type: 'transactions' | 'budgets' = 'transactions'): string => {
     const date = new Date().toISOString().split('T')[0];
-    return `transactions-export-${date}.${format}`;
+    return `${type}-export-${date}.${format}`;
 };

@@ -16,7 +16,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/auth/register:
+ * /api/v1/auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
@@ -57,7 +57,7 @@ router.post(
 
 /**
  * @swagger
- * /api/auth/login:
+ * /api/v1/auth/login:
  *   post:
  *     summary: Login and receive JWT token
  *     tags: [Auth]
@@ -92,7 +92,7 @@ router.post(
 
 /**
  * @swagger
- * /api/auth/profile:
+ * /api/v1/auth/profile:
  *   get:
  *     summary: Get authenticated user's profile
  *     tags: [Auth]
@@ -112,7 +112,7 @@ router.get(
 
 /**
  * @swagger
- * /api/auth/profile:
+ * /api/v1/auth/profile:
  *   put:
  *     summary: Update authenticated user's profile
  *     tags: [Auth]
@@ -146,7 +146,7 @@ router.put(
 
 /**
  * @swagger
- * /api/auth/change-password:
+ * /api/v1/auth/change-password:
  *   put:
  *     summary: Change authenticated user's password
  *     tags: [Auth]

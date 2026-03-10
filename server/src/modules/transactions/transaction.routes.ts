@@ -18,7 +18,7 @@ router.use(authenticate);
 
 /**
  * @swagger
- * /api/transactions/export/csv:
+ * /api/v1/transactions/export/csv:
  *   get:
  *     summary: Export transactions as CSV
  *     tags: [Transactions]
@@ -62,7 +62,7 @@ router.get(
 
 /**
  * @swagger
- * /api/transactions/export/json:
+ * /api/v1/transactions/export/json:
  *   get:
  *     summary: Export transactions as JSON
  *     tags: [Transactions]
@@ -102,7 +102,7 @@ router.get(
 
 /**
  * @swagger
- * /api/transactions:
+ * /api/v1/transactions:
  *   post:
  *     summary: Create a new transaction
  *     tags: [Transactions]
@@ -152,7 +152,7 @@ router.post(
 
 /**
  * @swagger
- * /api/transactions:
+ * /api/v1/transactions:
  *   get:
  *     summary: Get all transactions with optional filters
  *     tags: [Transactions]
@@ -217,7 +217,7 @@ router.get(
 
 /**
  * @swagger
- * /api/transactions/{id}:
+ * /api/v1/transactions/{id}:
  *   get:
  *     summary: Get a transaction by ID
  *     tags: [Transactions]
@@ -239,7 +239,7 @@ router.get('/:id', asyncHandler(TransactionController.getById));
 
 /**
  * @swagger
- * /api/transactions/{id}:
+ * /api/v1/transactions/{id}:
  *   put:
  *     summary: Update a transaction
  *     tags: [Transactions]
@@ -286,7 +286,7 @@ router.put(
 
 /**
  * @swagger
- * /api/transactions/{id}:
+ * /api/v1/transactions/{id}:
  *   delete:
  *     summary: Delete a transaction
  *     tags: [Transactions]

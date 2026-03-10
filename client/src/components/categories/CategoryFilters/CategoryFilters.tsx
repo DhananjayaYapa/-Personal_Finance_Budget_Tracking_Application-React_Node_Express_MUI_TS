@@ -21,7 +21,7 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
   <Card sx={{ mb: 3 }}>
     <CardContent>
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={12} md={5}>
           <TextField
             fullWidth
             size="small"
@@ -37,7 +37,7 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
             }}
           />
         </Grid>
-        <Grid item xs={6} sm={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <TextField
             fullWidth
             size="small"
@@ -54,7 +54,7 @@ const CategoryFilters: React.FC<CategoryFiltersProps> = ({
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={12} md={3}>
           <Button fullWidth variant="outlined" onClick={onReset}>
             Reset
           </Button>

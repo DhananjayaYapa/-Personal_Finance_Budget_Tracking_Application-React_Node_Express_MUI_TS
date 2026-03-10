@@ -75,7 +75,7 @@ const Budgets: React.FC = () => {
     if (budgets.length > 0) {
       dispatch(budgetActions.fetchAllBudgetProgress())
     }
-  }, [dispatch, budgets])
+  }, [dispatch, budgets.length])
 
   // Reset form on successful create
   useEffect(() => {
@@ -155,9 +155,9 @@ const Budgets: React.FC = () => {
       categoryId: {
         value: budget.categoryId || '',
         validator: 'select',
-        isRequired: true,
+        isRequired: false,
         error: null,
-        disable: false,
+        disable: true,
       },
       amount: {
         value: Number(budget.amount),
@@ -169,16 +169,16 @@ const Budgets: React.FC = () => {
       month: {
         value: budget.month,
         validator: 'select',
-        isRequired: true,
+        isRequired: false,
         error: null,
-        disable: false,
+        disable: true,
       },
       year: {
         value: budget.year,
         validator: 'select',
-        isRequired: true,
+        isRequired: false,
         error: null,
-        disable: false,
+        disable: true,
       },
     })
     setFormDialogOpen(true)
@@ -220,10 +220,7 @@ const Budgets: React.FC = () => {
 
       if (isValid) {
         const updateBudgetParams: UpdateBudgetRequestDto = {
-          categoryId: editingFormData.categoryId.value,
           amount: Number(editingFormData.amount.value),
-          month: editingFormData.month.value,
-          year: editingFormData.year.value,
         }
         dispatch(
           budgetActions.updateBudget({
