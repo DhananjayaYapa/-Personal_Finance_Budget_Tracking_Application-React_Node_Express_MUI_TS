@@ -8,6 +8,8 @@ import {
     updateBudgetSchema,
     budgetQuerySchema,
     budgetProgressQuerySchema,
+    budgetExportQuerySchema,
+    budgetAllProgressQuerySchema,
 } from './budget.schema.js';
 
 const router = express.Router();
@@ -19,7 +21,7 @@ router.use(authenticate);
 
 /**
  * @swagger
- * /api/budgets/progress:
+ * /api/v1/budgets/progress:
  *   get:
  *     summary: Get budget vs actual spending progress
  *     tags: [Budgets]
@@ -76,11 +78,54 @@ router.get(
     asyncHandler(BudgetController.getProgress),
 );
 
+/**
+ * @swagger
+ * /api/v1/budgets/progress/all:
+ *   get:
+ *     summary: Get all budget progress data in a single call
+ *     tags: [Budgets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: startMonth
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 12
+ *         description: Start month (optional)
+ *       - in: query
+ *         name: startYear
+ *         schema:
+ *           type: integer
+ *         description: Start year (optional)
+ *       - in: query
+ *         name: endMonth
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 12
+ *         description: End month (optional)
+ *       - in: query
+ *         name: endYear
+ *         schema:
+ *           type: integer
+ *         description: End year (optional)
+ *     responses:
+ *       200:
+ *         description: All budget progress data
+ */
+router.get(
+    '/progress/all',
+    validate({ query: budgetAllProgressQuerySchema }),
+    asyncHandler(BudgetController.getAllProgress),
+);
+
 // ─── CRUD Routes ────────────────────────────────────────────────────────────
 
 /**
  * @swagger
- * /api/budgets:
+ * /api/v1/budgets:
  *   post:
  *     summary: Create a budget for a category
  *     tags: [Budgets]
@@ -126,7 +171,7 @@ router.post(
 
 /**
  * @swagger
- * /api/budgets:
+ * /api/v1/budgets:
  *   get:
  *     summary: Get all budgets with optional filters
  *     tags: [Budgets]
@@ -155,7 +200,7 @@ router.get(
 
 /**
  * @swagger
- * /api/budgets/{id}:
+ * /api/v1/budgets/{id}:
  *   get:
  *     summary: Get a budget by ID
  *     tags: [Budgets]
@@ -173,11 +218,108 @@ router.get(
  *       404:
  *         description: Budget not found
  */
+
+// ─── Export Routes (must be before /:id) ────────────────────────────────────
+
+/**
+ * @swagger
+ * /api/v1/budgets/export/csv:
+ *   get:
+ *     summary: Export budgets to CSV
+ *     tags: [Budgets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: startMonth
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 12
+ *       - in: query
+ *         name: startYear
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: endMonth
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 12
+ *       - in: query
+ *         name: endYear
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: categoryId
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: CSV file download
+ *         content:
+ *           text/csv:
+ *             schema:
+ *               type: string
+ */
+router.get(
+    '/export/csv',
+    validate({ query: budgetExportQuerySchema }),
+    asyncHandler(BudgetController.exportCSV),
+);
+
+/**
+ * @swagger
+ * /api/v1/budgets/export/json:
+ *   get:
+ *     summary: Export budgets to JSON
+ *     tags: [Budgets]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: startMonth
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 12
+ *       - in: query
+ *         name: startYear
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: endMonth
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 12
+ *       - in: query
+ *         name: endYear
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: categoryId
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: JSON file download
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ */
+router.get(
+    '/export/json',
+    validate({ query: budgetExportQuerySchema }),
+    asyncHandler(BudgetController.exportJSON),
+);
+
 router.get('/:id', asyncHandler(BudgetController.getById));
 
 /**
  * @swagger
- * /api/budgets/{id}:
+ * /api/v1/budgets/{id}:
  *   put:
  *     summary: Update a budget amount
  *     tags: [Budgets]
@@ -214,7 +356,7 @@ router.put(
 
 /**
  * @swagger
- * /api/budgets/{id}:
+ * /api/v1/budgets/{id}:
  *   delete:
  *     summary: Delete a budget
  *     tags: [Budgets]

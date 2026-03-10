@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import TransactionService from './transaction.service.js';
-import { successResponse, createdResponse } from '../../shared/utils/responseHelper.js';
+import { successResponse } from '../../shared/utils/responseHelper.js';
 import { exportToCSV, exportToJSON, getExportFilename } from '../../shared/utils/exportHelper.js';
 
 // ─── Transaction Controller (HTTP Layer Only) ───────────────────────────────
@@ -8,8 +8,22 @@ import { exportToCSV, exportToJSON, getExportFilename } from '../../shared/utils
 class TransactionController {
     static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const transaction = await TransactionService.create(req.user!.userId, req.body);
-            createdResponse(res, transaction, 'Transaction created successfully');
+            const { transaction, budgetWarning } = await TransactionService.create(
+                req.user!.userId,
+                req.body,
+            );
+
+            const message = budgetWarning
+                ? 'Transaction created successfully'
+                : 'Transaction created successfully';
+
+            res.status(201).json({
+                success: true,
+                message,
+                data: transaction,
+                warning: budgetWarning || null,
+                timestamp: new Date().toISOString(),
+            });
         } catch (error) {
             next(error);
         }

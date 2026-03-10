@@ -43,7 +43,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ─── API Routes ─────────────────────────────────────────────────────────────
 
-app.use('/api', routes);
+app.use('/api/v1', routes);
 
 // ─── Root Endpoint ──────────────────────────────────────────────────────────
 
@@ -54,15 +54,15 @@ app.get('/', (_req, res) => {
         description: 'RESTful API for Personal Finance Budget Tracking',
         documentation: '/api-docs',
         endpoints: {
-            health: 'GET /api/health',
+            health: 'GET /api/v1/health',
             auth: {
-                register: 'POST /api/auth/register',
-                login: 'POST /api/auth/login',
-                profile: 'GET /api/auth/profile',
+                register: 'POST /api/v1/auth/register',
+                login: 'POST /api/v1/auth/login',
+                profile: 'GET /api/v1/auth/profile',
             },
-            categories: 'GET /api/categories',
-            transactions: 'GET /api/transactions',
-            budgets: 'GET /api/budgets',
+            categories: 'GET /api/v1/categories',
+            transactions: 'GET /api/v1/transactions',
+            budgets: 'GET /api/v1/budgets',
         },
     });
 });

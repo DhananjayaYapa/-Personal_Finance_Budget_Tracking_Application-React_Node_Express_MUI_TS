@@ -17,7 +17,7 @@ router.use('/budgets', budgetRoutes);
 
 /**
  * @swagger
- * /api/health:
+ * /api/v1/health:
  *   get:
  *     summary: Health check endpoint
  *     tags: [System]

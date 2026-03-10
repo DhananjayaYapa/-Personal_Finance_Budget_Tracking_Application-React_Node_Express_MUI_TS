@@ -14,7 +14,7 @@ router.use(authenticate);
 
 /**
  * @swagger
- * /api/categories:
+ * /api/v1/categories:
  *   post:
  *     summary: Create a new category
  *     tags: [Categories]
@@ -47,7 +47,7 @@ router.post('/', validate({ body: createCategorySchema }), asyncHandler(Category
 
 /**
  * @swagger
- * /api/categories:
+ * /api/v1/categories:
  *   get:
  *     summary: List all categories for the authenticated user
  *     tags: [Categories]
@@ -68,7 +68,7 @@ router.get('/', validate({ query: categoryQuerySchema }), asyncHandler(CategoryC
 
 /**
  * @swagger
- * /api/categories/{id}:
+ * /api/v1/categories/{id}:
  *   get:
  *     summary: Get a category by ID
  *     tags: [Categories]
@@ -91,7 +91,7 @@ router.get('/:id', asyncHandler(CategoryController.getById));
 
 /**
  * @swagger
- * /api/categories/{id}:
+ * /api/v1/categories/{id}:
  *   put:
  *     summary: Update a category
  *     tags: [Categories]
@@ -132,7 +132,7 @@ router.put(
 
 /**
  * @swagger
- * /api/categories/{id}:
+ * /api/v1/categories/{id}:
  *   delete:
  *     summary: Delete a category
  *     tags: [Categories]
