@@ -1,0 +1,49 @@
+.dashboard {
+  animation: fadeIn 0.3s ease;
+}
+
+.welcomeSection {
+  margin-bottom: 24px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Arrow animations
+@keyframes bounceUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes bounceDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+.incomeArrow {
+  display: flex;
+  align-items: center;
+  animation: bounceUp 1.5s ease-in-out infinite;
+}
+
+.expenseArrow {
+  display: flex;
+  align-items: center;
+  animation: bounceDown 1.5s ease-in-out infinite;
+}
