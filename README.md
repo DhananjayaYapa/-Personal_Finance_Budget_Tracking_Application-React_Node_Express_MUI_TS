@@ -154,47 +154,46 @@ cd -Personal_Finance_Budget_Tracking_Application-React_Node_Express_MUI_TS
 
 ```bash
 cd server
-
-# Install dependencies (also runs prisma generate via postinstall)
 npm install
-
-# Copy environment template and configure
 cp .env.example .env
-# Edit .env with your PostgreSQL credentials:
-#   DATABASE_URL=postgresql://your_user:your_password@localhost:5432/expense_tracker_db
-#   JWT_SECRET=your-secret-key
-
-# Create the database (in psql or pgAdmin)
-# CREATE DATABASE expense_tracker_db;
-
-# Run database migrations
-npx prisma migrate dev --name init
-
-# (Optional) Seed with demo data
-npm run seed
-# Demo user: john@example.com / Password1
-
-# Start the development server
-npm run dev
-# Server runs on http://localhost:5000
-# Swagger API docs at http://localhost:5000/api-docs
 ```
+
+Edit `.env` with your PostgreSQL credentials:
+
+```env
+DATABASE_URL=postgresql://your_user:your_password@localhost:5432/expense_tracker_db
+JWT_SECRET=your-secret-key
+```
+
+Create the database (in psql or pgAdmin):
+
+```sql
+CREATE DATABASE expense_tracker_db;
+```
+
+Run migrations and start the server:
+
+```bash
+npx prisma migrate dev --name init
+npm run seed          # (Optional) Seed with demo data - Demo user: john@example.com / Password1
+npm run dev           # Server runs on http://localhost:5000
+```
+
+Swagger API docs available at: `http://localhost:5000/api-docs`
 
 ### 3. Frontend Setup
 
 ```bash
 cd client
-
-# Install dependencies
 npm install
-
-# Copy environment template
 cp .env.example .env
-# Default: VITE_API_BASE_URL=http://localhost:5000/api/v1
+npm run dev           # App runs on http://localhost:5173
+```
 
-# Start the development server
-npm run dev
-# App runs on http://localhost:5173
+Default environment variable:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api/v1
 ```
 
 ---
