@@ -9,46 +9,50 @@ Track your income & expenses, manage budgets per category, and visualize your fi
 ## 🛠️ Tech Stack
 
 ### Frontend
-| Technology | Purpose |
-|---|---|
-| **React 19** + TypeScript | UI framework with type safety |
-| **Vite** | Build tool & dev server |
-| **Material UI (MUI) v6** | Component library & theming |
-| **Redux + Redux-Saga** | State management & async side effects |
-| **React Hook Form** | Form handling & validation |
-| **React Router v7** | Client-side routing |
-| **Recharts** | Data visualization (Pie, Bar charts) |
-| **Axios** | HTTP client with JWT interceptors |
-| **SCSS** | Custom styling & CSS modules |
-| **Day.js** | Date manipulation |
-| **ESLint + Prettier** | Code quality & formatting |
+
+| Technology                | Purpose                               |
+| ------------------------- | ------------------------------------- |
+| **React 19** + TypeScript | UI framework with type safety         |
+| **Vite**                  | Build tool & dev server               |
+| **Material UI (MUI) v6**  | Component library & theming           |
+| **Redux + Redux-Saga**    | State management & async side effects |
+| **React Hook Form**       | Form handling & validation            |
+| **React Router v7**       | Client-side routing                   |
+| **Recharts**              | Data visualization (Pie, Bar charts)  |
+| **Axios**                 | HTTP client with JWT interceptors     |
+| **SCSS**                  | Custom styling & CSS modules          |
+| **Day.js**                | Date manipulation                     |
+| **ESLint + Prettier**     | Code quality & formatting             |
 
 ### Backend
-| Technology | Purpose |
-|---|---|
-| **Express.js** | Node.js web framework |
-| **TypeScript** + ES Modules | Type safety & modern JS |
-| **Prisma v7** | ORM with PostgreSQL adapter |
-| **PostgreSQL** | Relational database |
-| **Zod** | Request validation & type inference |
-| **JSON Web Token (JWT)** | Authentication |
-| **bcryptjs** | Password hashing |
-| **Pino** | Structured logging |
-| **Swagger (OpenAPI 3.0)** | Interactive API documentation |
-| **json2csv** | CSV export |
-| **ESLint + Prettier** | Code quality & formatting |
+
+| Technology                  | Purpose                             |
+| --------------------------- | ----------------------------------- |
+| **Express.js**              | Node.js web framework               |
+| **TypeScript** + ES Modules | Type safety & modern JS             |
+| **Prisma v7**               | ORM with PostgreSQL adapter         |
+| **PostgreSQL**              | Relational database                 |
+| **Zod**                     | Request validation & type inference |
+| **JSON Web Token (JWT)**    | Authentication                      |
+| **bcryptjs**                | Password hashing                    |
+| **Pino**                    | Structured logging                  |
+| **Swagger (OpenAPI 3.0)**   | Interactive API documentation       |
+| **json2csv**                | CSV export                          |
+| **ESLint + Prettier**       | Code quality & formatting           |
 
 ---
 
 ## ✨ Key Features
 
 ### 🔐 Authentication
+
 - User registration & login with JWT
 - Password hashing with bcrypt
 - Protected routes & auto-redirect on token expiry
 - Profile management & password change
 
 ### 💸 Income & Expense Management
+
 - Add, edit, and delete transactions
 - Categorize by income or expense type
 - Filter by date range, category, and type
@@ -56,17 +60,20 @@ Track your income & expenses, manage budgets per category, and visualize your fi
 - CSV and JSON export
 
 ### 📊 Budget Management
+
 - Create monthly budgets per expense category
 - Visual progress bars showing spending vs. budget
 - Overspending alerts with color-coded indicators
 - Budget vs. actual comparison
 
 ### 🏷️ Category Management
+
 - Custom income and expense categories
 - Delete protection (categories with transactions/budgets cannot be deleted)
 - Unique constraint per user per type
 
 ### 📈 Dashboard
+
 - Financial summary cards (total income, expenses, balance)
 - Expense distribution pie chart by category
 - Monthly income vs. expenses bar chart
@@ -74,6 +81,7 @@ Track your income & expenses, manage budgets per category, and visualize your fi
 - Recent transactions list
 
 ### 📋 Reports
+
 - Filterable transaction reports
 - Budget utilization reports
 - Export data as CSV or JSON
@@ -104,6 +112,9 @@ Track your income & expenses, manage budgets per category, and visualize your fi
 │   └── ...
 │
 ├── server/                          # Express Backend
+│   ├── collections/
+│   │   ├── postman_collection.json  # Postman API collection
+│   │   └── swagger.json             # OpenAPI specification
 │   ├── prisma/
 │   │   └── schema.prisma            # Database schema (4 models)
 │   ├── scripts/
@@ -192,57 +203,57 @@ npm run dev
 
 ### Backend (`/server`)
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start dev server with hot reload (tsx) |
-| `npm run build` | Compile TypeScript to `dist/` |
-| `npm start` | Run production build |
-| `npm run seed` | Seed database with demo data |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format code with Prettier |
-| `npm run prisma:studio` | Open Prisma Studio (DB GUI) |
-| `npm run prisma:migrate` | Run database migrations |
+| Command                  | Description                            |
+| ------------------------ | -------------------------------------- |
+| `npm run dev`            | Start dev server with hot reload (tsx) |
+| `npm run build`          | Compile TypeScript to `dist/`          |
+| `npm start`              | Run production build                   |
+| `npm run seed`           | Seed database with demo data           |
+| `npm run lint`           | Run ESLint                             |
+| `npm run format`         | Format code with Prettier              |
+| `npm run prisma:studio`  | Open Prisma Studio (DB GUI)            |
+| `npm run prisma:migrate` | Run database migrations                |
 
 ### Frontend (`/client`)
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Vite dev server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format code with Prettier |
+| Command           | Description               |
+| ----------------- | ------------------------- |
+| `npm run dev`     | Start Vite dev server     |
+| `npm run build`   | Build for production      |
+| `npm run preview` | Preview production build  |
+| `npm run lint`    | Run ESLint                |
+| `npm run format`  | Format code with Prettier |
 
 ---
 
 ## 🔗 API Endpoints
 
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/api/auth/register` | Register a new user | ❌ |
-| POST | `/api/auth/login` | Login | ❌ |
-| GET | `/api/auth/profile` | Get user profile | ✅ |
-| PUT | `/api/auth/profile` | Update profile | ✅ |
-| PUT | `/api/auth/change-password` | Change password | ✅ |
-| GET | `/api/categories` | List categories (filter by type) | ✅ |
-| POST | `/api/categories` | Create category | ✅ |
-| GET | `/api/categories/:id` | Get category | ✅ |
-| PUT | `/api/categories/:id` | Update category | ✅ |
-| DELETE | `/api/categories/:id` | Delete category | ✅ |
-| GET | `/api/transactions` | List with filters & pagination | ✅ |
-| POST | `/api/transactions` | Create transaction | ✅ |
-| GET | `/api/transactions/:id` | Get transaction | ✅ |
-| PUT | `/api/transactions/:id` | Update transaction | ✅ |
-| DELETE | `/api/transactions/:id` | Delete transaction | ✅ |
-| GET | `/api/transactions/export/csv` | Export as CSV | ✅ |
-| GET | `/api/transactions/export/json` | Export as JSON | ✅ |
-| GET | `/api/budgets` | List budgets (filter by month/year) | ✅ |
-| POST | `/api/budgets` | Create budget | ✅ |
-| GET | `/api/budgets/:id` | Get budget | ✅ |
-| PUT | `/api/budgets/:id` | Update budget | ✅ |
-| DELETE | `/api/budgets/:id` | Delete budget | ✅ |
-| GET | `/api/budgets/progress` | Budget vs actual spending | ✅ |
-| GET | `/api/health` | Health check | ❌ |
+| Method | Endpoint                        | Description                         | Auth |
+| ------ | ------------------------------- | ----------------------------------- | ---- |
+| POST   | `/api/auth/register`            | Register a new user                 | ❌   |
+| POST   | `/api/auth/login`               | Login                               | ❌   |
+| GET    | `/api/auth/profile`             | Get user profile                    | ✅   |
+| PUT    | `/api/auth/profile`             | Update profile                      | ✅   |
+| PUT    | `/api/auth/change-password`     | Change password                     | ✅   |
+| GET    | `/api/categories`               | List categories (filter by type)    | ✅   |
+| POST   | `/api/categories`               | Create category                     | ✅   |
+| GET    | `/api/categories/:id`           | Get category                        | ✅   |
+| PUT    | `/api/categories/:id`           | Update category                     | ✅   |
+| DELETE | `/api/categories/:id`           | Delete category                     | ✅   |
+| GET    | `/api/transactions`             | List with filters & pagination      | ✅   |
+| POST   | `/api/transactions`             | Create transaction                  | ✅   |
+| GET    | `/api/transactions/:id`         | Get transaction                     | ✅   |
+| PUT    | `/api/transactions/:id`         | Update transaction                  | ✅   |
+| DELETE | `/api/transactions/:id`         | Delete transaction                  | ✅   |
+| GET    | `/api/transactions/export/csv`  | Export as CSV                       | ✅   |
+| GET    | `/api/transactions/export/json` | Export as JSON                      | ✅   |
+| GET    | `/api/budgets`                  | List budgets (filter by month/year) | ✅   |
+| POST   | `/api/budgets`                  | Create budget                       | ✅   |
+| GET    | `/api/budgets/:id`              | Get budget                          | ✅   |
+| PUT    | `/api/budgets/:id`              | Update budget                       | ✅   |
+| DELETE | `/api/budgets/:id`              | Delete budget                       | ✅   |
+| GET    | `/api/budgets/progress`         | Budget vs actual spending           | ✅   |
+| GET    | `/api/health`                   | Health check                        | ❌   |
 
 > **Interactive API Docs:** Visit `http://localhost:5000/api-docs` for Swagger UI.
 
@@ -252,19 +263,19 @@ npm run dev
 
 ### Backend (`server/.env`)
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | Server port | `5000` |
-| `NODE_ENV` | Environment | `development` |
-| `DATABASE_URL` | PostgreSQL connection string | — |
-| `JWT_SECRET` | JWT signing secret | — |
-| `JWT_EXPIRES_IN` | Token expiry | `7d` |
-| `CORS_ORIGIN` | Allowed CORS origin | `http://localhost:3000` |
-| `LOG_LEVEL` | Pino log level | `info` |
+| Variable         | Description                  | Default                 |
+| ---------------- | ---------------------------- | ----------------------- |
+| `PORT`           | Server port                  | `5000`                  |
+| `NODE_ENV`       | Environment                  | `development`           |
+| `DATABASE_URL`   | PostgreSQL connection string | —                       |
+| `JWT_SECRET`     | JWT signing secret           | —                       |
+| `JWT_EXPIRES_IN` | Token expiry                 | `7d`                    |
+| `CORS_ORIGIN`    | Allowed CORS origin          | `http://localhost:3000` |
+| `LOG_LEVEL`      | Pino log level               | `info`                  |
 
 ### Frontend (`client/.env`)
 
-| Variable | Description | Default |
-|----------|-------------|---------|
+| Variable            | Description     | Default                        |
+| ------------------- | --------------- | ------------------------------ |
 | `VITE_API_BASE_URL` | Backend API URL | `http://localhost:5000/api/v1` |
-| `VITE_APP_ENV` | App environment | `development` |
+| `VITE_APP_ENV`      | App environment | `development`                  |
