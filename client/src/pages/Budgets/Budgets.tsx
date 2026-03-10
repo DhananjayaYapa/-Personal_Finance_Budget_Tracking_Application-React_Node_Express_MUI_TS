@@ -75,7 +75,7 @@ const Budgets: React.FC = () => {
     if (budgets.length > 0) {
       dispatch(budgetActions.fetchAllBudgetProgress())
     }
-  }, [dispatch, budgets])
+  }, [dispatch, budgets.length])
 
   // Reset form on successful create
   useEffect(() => {

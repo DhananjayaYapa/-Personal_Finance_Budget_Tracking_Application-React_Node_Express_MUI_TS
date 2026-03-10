@@ -8,7 +8,12 @@ import {
   AccountBalanceWallet as BudgetIcon,
 } from '@mui/icons-material'
 
-import { transactionActions, budgetActions, categoryActions, exportActions } from '../../redux/actions'
+import {
+  transactionActions,
+  budgetActions,
+  categoryActions,
+  exportActions,
+} from '../../redux/actions'
 import type { RootState } from '../../redux/store'
 import type { Transaction, Budget, BudgetProgress, Category } from '../../utilities/models'
 import type { TransactionType } from '../../utilities/constants'
@@ -63,13 +68,10 @@ const Reports: React.FC = () => {
     if (budgets.length > 0) {
       dispatch(budgetActions.fetchAllBudgetProgress())
     }
-  }, [dispatch, budgets])
+  }, [dispatch, budgets.length])
 
   // Handlers
-  const handleReportTypeChange = (
-    _: React.MouseEvent<HTMLElement>,
-    newType: ReportType
-  ) => {
+  const handleReportTypeChange = (_: React.MouseEvent<HTMLElement>, newType: ReportType) => {
     if (newType !== null) {
       setReportType(newType)
       setPage(0)
@@ -139,9 +141,7 @@ const Reports: React.FC = () => {
 
   // Computed values
   const filteredCategories =
-    reportType === 'budget'
-      ? categories.filter((c: Category) => c.type === 'EXPENSE')
-      : categories
+    reportType === 'budget' ? categories.filter((c: Category) => c.type === 'EXPENSE') : categories
 
   const filteredTransactions = useMemo(() => {
     return transactions.filter((t: Transaction) => {
@@ -278,7 +278,9 @@ const Reports: React.FC = () => {
         onCategoryChange={handleCategoryChange}
         onTypeChange={handleTypeChange}
         onExportCsv={reportType === 'budget' ? handleExportBudgetCsv : handleExportTransactionCsv}
-        onExportJson={reportType === 'budget' ? handleExportBudgetJson : handleExportTransactionJson}
+        onExportJson={
+          reportType === 'budget' ? handleExportBudgetJson : handleExportTransactionJson
+        }
       />
 
       <LoadingOverlay loading={isLoading}>
