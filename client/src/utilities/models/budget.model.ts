@@ -23,10 +23,7 @@ export interface CreateBudgetRequestDto {
 
 // Update Budget Request
 export interface UpdateBudgetRequestDto {
-  amount?: number
-  month?: number
-  year?: number
-  categoryId?: string
+  amount: number
 }
 
 // Budget Filter Params

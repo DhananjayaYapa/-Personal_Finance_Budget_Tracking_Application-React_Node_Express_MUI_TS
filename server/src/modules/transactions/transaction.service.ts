@@ -5,14 +5,29 @@ import type {
     UpdateTransactionInput,
     TransactionQueryInput,
 } from './transaction.schema.js';
-import type { TransactionType } from '../../generated/prisma/client.js';
+import type { TransactionType, Transaction, Category } from '../../generated/prisma/client.js';
+
+// ─── Types ──────────────────────────────────────────────────────────────────
+
+interface BudgetWarning {
+    message: string;
+    budgetAmount: number;
+    totalSpent: number;
+    percentageUsed: number;
+    categoryName: string;
+}
+
+interface CreateTransactionResult {
+    transaction: Transaction & { category: Pick<Category, 'id' | 'name' | 'type'> | null };
+    budgetWarning?: BudgetWarning;
+}
 
 // ─── Transaction Service ────────────────────────────────────────────────────
 
 class TransactionService {
     // ── Create ──────────────────────────────────────────────────────────────
 
-    static async create(userId: number, data: CreateTransactionInput) {
+    static async create(userId: number, data: CreateTransactionInput): Promise<CreateTransactionResult> {
         // Validate category belongs to user and matches transaction type
         const category = await prisma.category.findFirst({
             where: { id: data.categoryId, userId },
@@ -28,7 +43,7 @@ class TransactionService {
             );
         }
 
-        return prisma.transaction.create({
+        const transaction = await prisma.transaction.create({
             data: {
                 title: data.title,
                 amount: data.amount,
@@ -42,6 +57,61 @@ class TransactionService {
                 category: { select: { id: true, name: true, type: true } },
             },
         });
+
+        // Check budget warning for EXPENSE transactions
+        let budgetWarning: BudgetWarning | undefined;
+        if (data.type === 'EXPENSE') {
+            const transactionDate = new Date(data.date);
+            const month = transactionDate.getMonth() + 1; // 1-12
+            const year = transactionDate.getFullYear();
+
+            // Find budget for this category/month/year
+            const budget = await prisma.budget.findFirst({
+                where: {
+                    userId,
+                    categoryId: data.categoryId,
+                    month,
+                    year,
+                },
+            });
+
+            if (budget) {
+                // Calculate total spent for this category in this month/year
+                const startOfMonth = new Date(year, month - 1, 1);
+                const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);
+
+                const totalSpentResult = await prisma.transaction.aggregate({
+                    where: {
+                        userId,
+                        categoryId: data.categoryId,
+                        type: 'EXPENSE',
+                        date: {
+                            gte: startOfMonth,
+                            lte: endOfMonth,
+                        },
+                    },
+                    _sum: {
+                        amount: true,
+                    },
+                });
+
+                const totalSpent = Number(totalSpentResult._sum.amount || 0);
+                const budgetAmount = Number(budget.amount);
+                const percentageUsed = budgetAmount > 0 ? (totalSpent / budgetAmount) * 100 : 0;
+
+                if (totalSpent > budgetAmount) {
+                    budgetWarning = {
+                        message: `Budget exceeded for "${category.name}"! You've spent ${percentageUsed.toFixed(1)}% of your budget.`,
+                        budgetAmount,
+                        totalSpent,
+                        percentageUsed,
+                        categoryName: category.name,
+                    };
+                }
+            }
+        }
+
+        return { transaction, budgetWarning };
     }
 
     // ── Get All (with filters + pagination) ─────────────────────────────────

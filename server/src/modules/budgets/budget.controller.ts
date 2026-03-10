@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import BudgetService from './budget.service.js';
 import { successResponse, createdResponse } from '../../shared/utils/responseHelper.js';
+import { exportBudgetsToCSV, exportBudgetsToJSON, getExportFilename } from '../../shared/utils/exportHelper.js';
 
 // ─── Budget Controller (HTTP Layer Only) ────────────────────────────────────
 
@@ -57,6 +58,49 @@ class BudgetController {
         try {
             const progress = await BudgetService.getProgress(req.user!.userId, req.query as never);
             successResponse(res, progress, 'Budget progress retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getAllProgress(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const progress = await BudgetService.getAllProgress(req.user!.userId, req.query as never);
+            successResponse(res, progress, 'All budget progress retrieved successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async exportCSV(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const budgets = await BudgetService.getForExport(
+                req.user!.userId,
+                req.query as never,
+            );
+            const csv = exportBudgetsToCSV(budgets);
+            const filename = getExportFilename('csv', 'budgets');
+
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+            res.send(csv);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async exportJSON(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const budgets = await BudgetService.getForExport(
+                req.user!.userId,
+                req.query as never,
+            );
+            const data = exportBudgetsToJSON(budgets);
+            const filename = getExportFilename('json', 'budgets');
+
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+            res.json(data);
         } catch (error) {
             next(error);
         }
