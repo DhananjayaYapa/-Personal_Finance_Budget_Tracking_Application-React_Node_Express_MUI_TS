@@ -1,0 +1,19 @@
+.budgetsPage {
+  animation: fadeIn 0.3s ease;
+}
+
+// Grid item wrapper - prevents horizontal siblings from stretching
+.gridItem {
+  align-self: flex-start;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
