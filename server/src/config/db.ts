@@ -6,22 +6,27 @@ import { PrismaClient } from '../generated/prisma/client.js';
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 
 function createPrismaClient(): PrismaClient {
-    const connectionString = process.env.DATABASE_URL;
-    if (!connectionString) {
-        throw new Error('DATABASE_URL environment variable is required');
-    }
-    const pool = new pg.Pool({ connectionString });
-    const adapter = new PrismaPg(pool);
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error('DATABASE_URL environment variable is required');
+  }
+  const pool = new pg.Pool({
+    connectionString,
+    ssl: {
+      rejectUnauthorized: false, // Required for AWS RDS SSL certificates
+    },
+  });
+  const adapter = new PrismaPg(pool);
 
-    return new PrismaClient({
-        adapter,
-        log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
-    });
+  return new PrismaClient({
+    adapter,
+    log: process.env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
+  });
 }
 const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
 if (process.env.NODE_ENV !== 'production') {
-    globalForPrisma.prisma = prisma;
+  globalForPrisma.prisma = prisma;
 }
 
 export default prisma;
