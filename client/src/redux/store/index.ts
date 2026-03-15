@@ -25,6 +25,7 @@ const logger: Middleware = createLogger({
 
 // Get environment
 const processEnv = import.meta.env.VITE_APP_ENV
+const isDevelopment = import.meta.env.DEV || processEnv === 'dev' || processEnv === 'local'
 
 // Configure store with reducers and saga middleware
 export const store = configureStore({
@@ -35,8 +36,8 @@ export const store = configureStore({
       serializableCheck: false,
     })
 
-    // Add logger only in dev or local environments
-    if (processEnv === 'dev' || processEnv === 'local') {
+    // Add logger only in development/local environments
+    if (isDevelopment) {
       middleware.push(logger)
     }
 
